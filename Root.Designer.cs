@@ -47,10 +47,11 @@
             this.MainPictureBox.Image = global::Inteferente_ECO.Properties.Resources.Back4;
             this.MainPictureBox.Location = new System.Drawing.Point(13, 13);
             this.MainPictureBox.Name = "MainPictureBox";
-            this.MainPictureBox.Size = new System.Drawing.Size(600, 800);
+            this.MainPictureBox.Size = new System.Drawing.Size(400, 800);
             this.MainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.MainPictureBox.TabIndex = 0;
             this.MainPictureBox.TabStop = false;
+            this.MainPictureBox.Click += new System.EventHandler(this.MainPictureBox_Click);
             this.MainPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.MainPictureBox_Paint);
             this.MainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainPictureBox_MouseMove);
             // 
@@ -62,7 +63,7 @@
             this.SidePanel.Controls.Add(this.StartButton);
             this.SidePanel.Controls.Add(this.LoadmapButton);
             this.SidePanel.Controls.Add(this.GridCheckbox);
-            this.SidePanel.Location = new System.Drawing.Point(620, 13);
+            this.SidePanel.Location = new System.Drawing.Point(425, 13);
             this.SidePanel.Name = "SidePanel";
             this.SidePanel.Size = new System.Drawing.Size(250, 800);
             this.SidePanel.TabIndex = 1;
@@ -140,7 +141,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 826);
+            this.ClientSize = new System.Drawing.Size(686, 828);
             this.Controls.Add(this.SidePanel);
             this.Controls.Add(this.MainPictureBox);
             this.Name = "Root";

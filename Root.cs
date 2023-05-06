@@ -83,6 +83,10 @@ namespace Inteferente_ECO
                         if (Entities[Linie,Coloana] != null)
                         {
                             EntityBitmap = new Bitmap(Image.FromFile(Settings.ResourcesPath + Entities[Linie,Coloana].Name + ".png") , Settings.CellSizeX , Settings.CellSizeY);
+                            for(int __RotationIncrement = 1;__RotationIncrement <= Entities[Linie, Coloana].Action; __RotationIncrement++)
+                            {
+                                EntityBitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                            }
                             EntityTextureBrush = new TextureBrush(EntityBitmap);
                             e.Graphics.FillRectangle(EntityTextureBrush, Entities[Linie,Coloana].X , Entities[Linie, Coloana].Y, Settings.CellSizeX , Settings.CellSizeY);
 
@@ -101,13 +105,19 @@ namespace Inteferente_ECO
                     {
                         DeflectorBitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
                     }
+                    DeflectorBitmap.SetResolution(300,300);
                     TextureBrush DeflectorTextureBrush = new TextureBrush(DeflectorBitmap);
                     e.Graphics.FillRectangle(DeflectorTextureBrush, Settings.PlacementColumn * Settings.CellSizeX, Settings.PlacementLine * Settings.CellSizeY, Settings.CellSizeX, Settings.CellSizeY);
                 }
 
+                if (Entities[3, 7] != null)
+                {
+                    Entities[3, 7].X -= 1 * Settings.CellSizeX;
+                    if (Entities[3, 7].X < 0) Entities[3, 7].X = 10 * Settings.CellSizeX;
+                }
+
             }
 
-            
             Settings.GCTick += Math.Max(1, Update.Interval / 1000);
             if(Settings.GCTick >= 10)
             {
@@ -115,9 +125,7 @@ namespace Inteferente_ECO
                 GC.WaitForPendingFinalizers();
                 Settings.GCTick = 0;
             }
-
         }
-
         private void StartButton_Click(object sender, EventArgs e)
         {
 
@@ -163,6 +171,24 @@ namespace Inteferente_ECO
                 int IncrementedLocationY = e.Location.Y / Settings.CellSizeY * Settings.CellSizeY;
                 Settings.PlacementLine = IncrementedLocationY / Settings.CellSizeY;
                 Settings.PlacementColumn = IncrementedLocationX / Settings.CellSizeX;
+            }
+        }
+
+        private void MainPictureBox_Click(object sender, EventArgs e)
+        {
+            if(Settings.PlacingDeflector == true && Entities != null){
+                if (Entities[Settings.PlacementLine,Settings.PlacementColumn] == null)
+                {
+                    Console.WriteLine(Settings.PlacementLine + "-" + Settings.PlacementColumn);
+
+                    Entities[Settings.PlacementLine, Settings.PlacementColumn] = new Entity
+                    {
+                        Name = "Deflector",
+                        Action = Settings.DeflectorIncrement,
+                        X = Settings.PlacementColumn * Settings.CellSizeX,
+                        Y = Settings.PlacementLine * Settings.CellSizeY
+                    };
+                }
             }
         }
     }
