@@ -20,7 +20,6 @@ namespace Inteferente_ECO
         Bitmap EntityBitmap;
         TextureBrush EntityTextureBrush;
        
-
         Entity[,] Entities;
 
         public Root()
