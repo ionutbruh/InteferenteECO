@@ -116,7 +116,7 @@ namespace Inteferente_ECO
                 }
             }
 
-            Settings.GCTick += Math.Max(1, Updater.Interval / 1000);
+            Settings.GCTick += Math.Max(1, Updater.Interval / 1000); // MEMMORY CONTROLL
             if(Settings.GCTick >= 10)
             {
                 GC.Collect();
