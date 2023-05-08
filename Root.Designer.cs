@@ -31,12 +31,16 @@
             this.components = new System.ComponentModel.Container();
             this.MainPictureBox = new System.Windows.Forms.PictureBox();
             this.SidePanel = new System.Windows.Forms.Panel();
+            this.PlasticLabel = new System.Windows.Forms.Label();
+            this.PaperLabel = new System.Windows.Forms.Label();
+            this.BottleLabel = new System.Windows.Forms.Label();
+            this.ClearButton = new System.Windows.Forms.Button();
             this.RotateDeflectorButton = new System.Windows.Forms.Button();
             this.DeflectorPanel = new System.Windows.Forms.Panel();
             this.StartButton = new System.Windows.Forms.Button();
             this.LoadmapButton = new System.Windows.Forms.Button();
             this.GridCheckbox = new System.Windows.Forms.CheckBox();
-            this.Update = new System.Windows.Forms.Timer(this.components);
+            this.Updater = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).BeginInit();
             this.SidePanel.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +62,10 @@
             // SidePanel
             // 
             this.SidePanel.BackgroundImage = global::Inteferente_ECO.Properties.Resources.Wood2;
+            this.SidePanel.Controls.Add(this.PlasticLabel);
+            this.SidePanel.Controls.Add(this.PaperLabel);
+            this.SidePanel.Controls.Add(this.BottleLabel);
+            this.SidePanel.Controls.Add(this.ClearButton);
             this.SidePanel.Controls.Add(this.RotateDeflectorButton);
             this.SidePanel.Controls.Add(this.DeflectorPanel);
             this.SidePanel.Controls.Add(this.StartButton);
@@ -67,6 +75,55 @@
             this.SidePanel.Name = "SidePanel";
             this.SidePanel.Size = new System.Drawing.Size(250, 800);
             this.SidePanel.TabIndex = 1;
+            // 
+            // PlasticLabel
+            // 
+            this.PlasticLabel.BackColor = System.Drawing.Color.Transparent;
+            this.PlasticLabel.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.25F, System.Drawing.FontStyle.Bold);
+            this.PlasticLabel.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.PlasticLabel.Location = new System.Drawing.Point(8, 389);
+            this.PlasticLabel.Name = "PlasticLabel";
+            this.PlasticLabel.Size = new System.Drawing.Size(234, 23);
+            this.PlasticLabel.TabIndex = 8;
+            this.PlasticLabel.Text = "Plastic - 0";
+            this.PlasticLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PaperLabel
+            // 
+            this.PaperLabel.BackColor = System.Drawing.Color.Transparent;
+            this.PaperLabel.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.25F, System.Drawing.FontStyle.Bold);
+            this.PaperLabel.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.PaperLabel.Location = new System.Drawing.Point(8, 356);
+            this.PaperLabel.Name = "PaperLabel";
+            this.PaperLabel.Size = new System.Drawing.Size(234, 23);
+            this.PaperLabel.TabIndex = 7;
+            this.PaperLabel.Text = "Hartie - 0";
+            this.PaperLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // BottleLabel
+            // 
+            this.BottleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.BottleLabel.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.25F, System.Drawing.FontStyle.Bold);
+            this.BottleLabel.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.BottleLabel.Location = new System.Drawing.Point(9, 323);
+            this.BottleLabel.Name = "BottleLabel";
+            this.BottleLabel.Size = new System.Drawing.Size(234, 23);
+            this.BottleLabel.TabIndex = 6;
+            this.BottleLabel.Text = "Sticla - 0";
+            this.BottleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ClearButton
+            // 
+            this.ClearButton.BackgroundImage = global::Inteferente_ECO.Properties.Resources.Back3;
+            this.ClearButton.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ClearButton.ForeColor = System.Drawing.Color.Coral;
+            this.ClearButton.Location = new System.Drawing.Point(8, 271);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(235, 30);
+            this.ClearButton.TabIndex = 5;
+            this.ClearButton.Text = "Curata Tot";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // RotateDeflectorButton
             // 
@@ -96,7 +153,7 @@
             this.StartButton.BackgroundImage = global::Inteferente_ECO.Properties.Resources.Back3;
             this.StartButton.Font = new System.Drawing.Font("Franklin Gothic Medium", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.StartButton.ForeColor = System.Drawing.Color.Coral;
-            this.StartButton.Location = new System.Drawing.Point(8, 385);
+            this.StartButton.Location = new System.Drawing.Point(8, 433);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(235, 30);
             this.StartButton.TabIndex = 2;
@@ -131,11 +188,11 @@
             this.GridCheckbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.GridCheckbox.UseVisualStyleBackColor = false;
             // 
-            // Update
+            // Updater
             // 
-            this.Update.Enabled = true;
-            this.Update.Interval = 250;
-            this.Update.Tick += new System.EventHandler(this.Update_Tick);
+            this.Updater.Enabled = true;
+            this.Updater.Interval = 250;
+            this.Updater.Tick += new System.EventHandler(this.Update_Tick);
             // 
             // Root
             // 
@@ -144,6 +201,8 @@
             this.ClientSize = new System.Drawing.Size(686, 828);
             this.Controls.Add(this.SidePanel);
             this.Controls.Add(this.MainPictureBox);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Root";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Root_Load);
@@ -158,11 +217,15 @@
         private System.Windows.Forms.PictureBox MainPictureBox;
         private System.Windows.Forms.Panel SidePanel;
         private System.Windows.Forms.CheckBox GridCheckbox;
-        private System.Windows.Forms.Timer Update;
+        private System.Windows.Forms.Timer Updater;
         private System.Windows.Forms.Button LoadmapButton;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button RotateDeflectorButton;
         private System.Windows.Forms.Panel DeflectorPanel;
+        private System.Windows.Forms.Button ClearButton;
+        private System.Windows.Forms.Label PlasticLabel;
+        private System.Windows.Forms.Label PaperLabel;
+        private System.Windows.Forms.Label BottleLabel;
     }
 }
 

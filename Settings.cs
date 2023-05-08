@@ -17,5 +17,17 @@ namespace Inteferente_ECO
         public static bool PlacingDeflector = false;
         public static int PlacementLine = 0;
         public static int PlacementColumn = 0;
+
+        public static string Direction = string.Empty;
+
+        public static int RobotLine;
+        public static int RobotColumn;
+
+        public static Dictionary<string, int> Collectibles = new Dictionary<string, int>() {
+            {"Sticla" , 0},
+            {"Plastic" , 0},
+            {"Hartie" , 0}
+        };
+
     }
 }

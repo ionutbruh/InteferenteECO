@@ -71,6 +71,12 @@ namespace Inteferente_ECO
                             X =  ColoanaEntitate * Settings.CellSizeX,
                             Y = LinieEntitate * Settings.CellSizeY,
                         };
+
+                        if (LineSplit[0] == "Robot") //REGISTER ROBOT TO SETTINGS
+                        {
+                            Settings.RobotLine = LinieEntitate;
+                            Settings.RobotColumn = ColoanaEntitate;
+                        }
                     }
                 }
 
@@ -108,16 +114,9 @@ namespace Inteferente_ECO
                     TextureBrush DeflectorTextureBrush = new TextureBrush(DeflectorBitmap);
                     e.Graphics.FillRectangle(DeflectorTextureBrush, Settings.PlacementColumn * Settings.CellSizeX, Settings.PlacementLine * Settings.CellSizeY, Settings.CellSizeX, Settings.CellSizeY);
                 }
-
-                if (Entities[3, 7] != null)
-                {
-                    Entities[3, 7].X -= 1 * Settings.CellSizeX;
-                    if (Entities[3, 7].X < 0) Entities[3, 7].X = 10 * Settings.CellSizeX;
-                }
-
             }
 
-            Settings.GCTick += Math.Max(1, Update.Interval / 1000);
+            Settings.GCTick += Math.Max(1, Updater.Interval / 1000);
             if(Settings.GCTick >= 10)
             {
                 GC.Collect();
@@ -125,15 +124,145 @@ namespace Inteferente_ECO
                 Settings.GCTick = 0;
             }
         }
-        private void StartButton_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e) // START BUTTON
         {
-
+            if (Entities != null)
+            {
+                if (Settings.Direction == string.Empty)
+                {
+                    ChooseDirection chooseDirection = new ChooseDirection();
+                    chooseDirection.Show();
+                }
+            }
+            else MessageBox.Show("Please load a map before starting the game");
         }
 
-        private void Update_Tick(object sender, EventArgs e)
+        private void Update_Tick(object sender, EventArgs e) // TICK
         {
+            if (Settings.Direction != string.Empty)
+            {
+                Entity RobotEntity = Entities[Settings.RobotLine, Settings.RobotColumn];
+                Entities[Settings.RobotLine, Settings.RobotColumn] = null;
+
+                switch (Settings.Direction)
+                {
+                    case "Up":
+                        if (Settings.RobotLine <= 0) { Settings.RobotLine = 19; } else Settings.RobotLine--;
+                        ValidateRobotMovement(RobotEntity);
+                        RobotEntity.Y = Settings.RobotLine * Settings.CellSizeY;
+
+                        if (Entities[Settings.RobotLine,Settings.RobotColumn] != null)
+                        {
+                            if (Entities[Settings.RobotLine, Settings.RobotColumn].Name == "Deflector")
+                            {
+                                switch (Entities[Settings.RobotLine, Settings.RobotColumn].Action)
+                                {
+                                    case 0:
+                                        Settings.Direction = "Right";
+                                        break;
+                                    case 1:
+                                        Settings.Direction = "Left";
+                                        break;
+                                }
+                            }
+                        }
+
+                        Entities[Settings.RobotLine, Settings.RobotColumn] = RobotEntity;
+                        break;
+                    case "Down":
+                        if (Settings.RobotLine >= 19) { Settings.RobotLine = 0; } else Settings.RobotLine++;
+                        ValidateRobotMovement(RobotEntity);
+                        RobotEntity.Y = Settings.RobotLine * Settings.CellSizeY;
+
+                        if (Entities[Settings.RobotLine, Settings.RobotColumn] != null)
+                        {
+                            if (Entities[Settings.RobotLine, Settings.RobotColumn].Name == "Deflector")
+                            {
+                                switch (Entities[Settings.RobotLine, Settings.RobotColumn].Action)
+                                {
+                                    case 2:
+                                        Settings.Direction = "Left";
+                                        break;
+                                    case 3:
+                                        Settings.Direction = "Right";
+                                        break;
+                                }
+                            }
+                        }
+
+                        Entities[Settings.RobotLine, Settings.RobotColumn] = RobotEntity;
+                        break;
+                    case "Left":
+                        if (Settings.RobotColumn <= 0) { Settings.RobotColumn = 9; } else Settings.RobotColumn--;
+                        ValidateRobotMovement(RobotEntity);
+                        RobotEntity.X = Settings.RobotColumn * Settings.CellSizeX;
+
+                        if (Entities[Settings.RobotLine, Settings.RobotColumn] != null)
+                        {
+                            if (Entities[Settings.RobotLine, Settings.RobotColumn].Name == "Deflector")
+                            {
+                                switch (Entities[Settings.RobotLine, Settings.RobotColumn].Action)
+                                {
+                                    case 0:
+                                        Settings.Direction = "Down";
+                                        break;
+                                    case 3:
+                                        Settings.Direction = "Up";
+                                        break;
+                                }
+                            }
+                        }
+
+                        Entities[Settings.RobotLine, Settings.RobotColumn] = RobotEntity;
+                        break;
+                    case "Right":
+                        if (Settings.RobotColumn >= 9) { Settings.RobotColumn = 0; } else Settings.RobotColumn++;
+                        ValidateRobotMovement(RobotEntity);
+                        RobotEntity.X = Settings.RobotColumn * Settings.CellSizeX;
+
+                        if (Entities[Settings.RobotLine, Settings.RobotColumn] != null)
+                        {
+                            if (Entities[Settings.RobotLine, Settings.RobotColumn].Name == "Deflector")
+                            {
+                                switch (Entities[Settings.RobotLine, Settings.RobotColumn].Action)
+                                {
+                                    case 1:
+                                        Settings.Direction = "Down";
+                                        break;
+                                    case 2:
+                                        Settings.Direction = "Up";
+                                        break;
+                                }
+                            }
+                        }
+
+                        Entities[Settings.RobotLine, Settings.RobotColumn] = RobotEntity;
+                        break;
+                }
+            }
+
             MainPictureBox.Invalidate();
             DeflectorPanel.Invalidate();
+        }
+
+        private void UpdateCollectedLabels()
+        {
+            BottleLabel.Text = "Sticla - " + Settings.Collectibles["Sticla"];
+            PlasticLabel.Text = "Plastic - " + Settings.Collectibles["Plastic"];
+            PaperLabel.Text = "Hartie - " + Settings.Collectibles["Hartie"];
+        }
+
+        private int ValidateRobotMovement(Entity Robot)
+        {
+            if (Entities[Settings.RobotLine, Settings.RobotColumn] != null)
+            {
+                if (Settings.Collectibles.ContainsKey(Entities[Settings.RobotLine, Settings.RobotColumn].Name))
+                {
+                    Settings.Collectibles[Entities[Settings.RobotLine, Settings.RobotColumn].Name]++;
+                    UpdateCollectedLabels();    
+                }
+            }
+            return 0;
         }
 
         private void LoadmapButton_Click(object sender, EventArgs e)
@@ -178,8 +307,6 @@ namespace Inteferente_ECO
             if(Settings.PlacingDeflector == true && Entities != null){
                 if (Entities[Settings.PlacementLine,Settings.PlacementColumn] == null)
                 {
-                    Console.WriteLine(Settings.PlacementLine + "-" + Settings.PlacementColumn);
-
                     Entities[Settings.PlacementLine, Settings.PlacementColumn] = new Entity
                     {
                         Name = "Deflector",
@@ -187,7 +314,29 @@ namespace Inteferente_ECO
                         X = Settings.PlacementColumn * Settings.CellSizeX,
                         Y = Settings.PlacementLine * Settings.CellSizeY
                     };
+
+                    Settings.PlacingDeflector = false;
                 }
+            }
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            if(Entities != null)
+            {
+                Ofd.FileName = string.Empty;
+                Entities = null;
+                Settings.Direction = string.Empty;
+                Settings.Collectibles = new Dictionary<string, int>()
+                {
+                     {"Sticla" , 0},
+                     {"Plastic" , 0},
+                     {"Hartie" , 0}
+                };
+                UpdateCollectedLabels();
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
         }
     }
