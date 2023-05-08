@@ -204,7 +204,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Root";
-            this.Text = "Form1";
+            this.Text = "InterferenteECO - Ionut";
             this.Load += new System.EventHandler(this.Root_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).EndInit();
             this.SidePanel.ResumeLayout(false);

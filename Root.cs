@@ -15,12 +15,15 @@ namespace Inteferente_ECO
     {
 
         Pen WhitePen = new Pen(Color.WhiteSmoke);
+        SolidBrush PathBrush = new SolidBrush(Color.Orange);
+
         OpenFileDialog Ofd = new OpenFileDialog();
 
         Bitmap EntityBitmap;
         TextureBrush EntityTextureBrush;
        
         Entity[,] Entities;
+        Color[,] Path; // COLOR THE ROBOT PATH
 
         public Root()
         {
@@ -29,7 +32,7 @@ namespace Inteferente_ECO
 
         private void Root_Load(object sender, EventArgs e)
         {
-            new Settings();
+            //new Settings();
             Settings.CellSizeX = MainPictureBox.Width / 10;
             Settings.CellSizeY = MainPictureBox.Height / 20;
 
@@ -58,7 +61,9 @@ namespace Inteferente_ECO
                 {
                     Console.WriteLine("Registering entities...");
 
+                    Path = new Color[20, 10];
                     Entities = new Entity[20, 10];
+
                     foreach (string TextLine in File.ReadAllLines(Ofd.FileName))
                     {
                         string[] LineSplit = TextLine.Split(' ');
@@ -76,6 +81,24 @@ namespace Inteferente_ECO
                         {
                             Settings.RobotLine = LinieEntitate;
                             Settings.RobotColumn = ColoanaEntitate;
+
+                            Path[LinieEntitate, ColoanaEntitate] = Color.Orange;
+                        }
+                    }
+                }
+
+                //DRAW PATH
+                if (Settings.Direction != string.Empty)
+                {
+                    for(int LinieCuloare = 0;LinieCuloare < 20; LinieCuloare++)
+                    {
+                        for (int ColoanaCuloare = 0; ColoanaCuloare < 10; ColoanaCuloare++)
+                        {
+                            if (Path[LinieCuloare,ColoanaCuloare] != null)
+                            {
+                                PathBrush.Color = Path[LinieCuloare, ColoanaCuloare];
+                                e.Graphics.FillRectangle(PathBrush, ColoanaCuloare * Settings.CellSizeX, LinieCuloare * Settings.CellSizeY, Settings.CellSizeX, Settings.CellSizeY);
+                            }
                         }
                     }
                 }
@@ -235,9 +258,15 @@ namespace Inteferente_ECO
                                 }
                             }
                         }
-
                         Entities[Settings.RobotLine, Settings.RobotColumn] = RobotEntity;
                         break;
+                }
+
+                // ADD PATH SEGMENT
+                if (Path[Settings.RobotLine,Settings.RobotColumn] == Color.Empty)
+                {
+                    Console.WriteLine(Settings.RobotLine+"-"+Settings.RobotColumn);
+                    Path[Settings.RobotLine, Settings.RobotColumn] = Color.MediumPurple;
                 }
             }
 
@@ -326,6 +355,7 @@ namespace Inteferente_ECO
             {
                 Ofd.FileName = string.Empty;
                 Entities = null;
+                Path = null;
                 Settings.Direction = string.Empty;
                 Settings.Collectibles = new Dictionary<string, int>()
                 {
